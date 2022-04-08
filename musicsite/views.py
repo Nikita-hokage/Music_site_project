@@ -50,7 +50,7 @@ def mainstr(request):
     data = {
         "janrs":janrs.keys()
     }
-    return render(request, 'polls/structure.html', context=data)
+    return render(request, 'pages/mainpage.html', context=data)
 
 def janrGetName(request, name):
     if janrs.get(name):
@@ -58,9 +58,9 @@ def janrGetName(request, name):
         "janr": name,
         "description": janrs[name]
     }
-        return render(request, 'polls/second.html', context=data)
+        return render(request, 'pages/secondpage.html', context=data)
     else:
         return HttpResponseRedirect('404')
 
 def getnotFound(request):
-    return render(request, 'polls/404.html')
+    return render(request, 'pages/404.html')

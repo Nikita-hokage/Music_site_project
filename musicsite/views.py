@@ -4,63 +4,67 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.shortcuts import render
+from musicsite.forms import AddJanrF, AddSongF, AddAuthorF
+from musicsite.models import Janr, Author, Song
 
-janrs = {'Punk-rock': 'жанр рок-музыки, сформировавшийся к середине 1970-х годов на территории США, Великобритании и'
-                      ' Австралии. Истоки жанра проистекают из гаражного рока 1960-х, а также других музыкальных форм,'
-                      ' ныне известных как протопанк. С самого начала представители жанра противопоставляли себя'
-                      ' помпезности мейнстримного рока 1970-х: как правило, панк-группы записывали короткие, очень'
-                      ' динамичные песни с резкими мелодиями и грубым вокалом, минимальным набором аппаратуры, а также'
-                      ' социальными и политизированными текстами, направленными против истеблишмента. Одной из ключевых'
-                      ' особенностей панка была DIY-идеология; многие исполнители самостоятельно продюсировали свои'
-                      ' записи и распространяли их собственными силами или через независимые лейблы.',
-         'alternative rock': "жанр рок-музыки, сформировавшийся из музыкального андеграунда 1980-х и ставший популярным "
-                             "в 1990-е и 2000-е годы. В данном случае слово «альтернатива» подразумевает антитезу мейнст"
-                             "римовой рок-музыке.",
-         "Art-rock": " жанр экспериментальной и рок-музыки, который характеризуется мелодическими, гармоническими или"
-                     " ритмическими экспериментами, а также большим количеством художественных образов в текстах песен."
-                     " Арт-рок зачастую идёт дальше форм и жанров современной популярной музыки в направлении джаза, "
-                     "академической, этнической музыки или экспериментального авангарда.",
-         "Beat": "также называемая мерсибит (англ. merseybeat) для групп из Ливерпуля рядом с рекой Мерси или брамбит"
-                 " (англ. Brumbeat) для групп из Бирмингема — это жанр рок-музыки, зародившийся в Великобритании "
-                 "в начале 1960‑х.",
-         "Garage rock": "музыкальный жанр, сырой и энергичный вид рок-н-ролла, процветавший в середине 1960-х годов,"
-                        " особенно в США и Канаде. В то время гаражный рок так не называли и не признавали в качестве"
-                        " отдельного жанра, но критическое признание в начале 1970-х и, в частности, издание сборника"
-                        " Nuggets в 1972 году, сделали большой вклад в определение границ нового жанра. Гаражный рок"
-                        " считается основной предтечей панк-рока",
-         "Glam rock": ", также глиттер-рок (англ. glitter rock — от слова «глиттер») — жанр рок-музыки, возникший в"
-                      " Великобритании в самом начале 1970-х гг. и ставший одним из доминирующих жанров первой половины "
-                      "того десятилетия. Для исполнителей глэм-рока были характерны яркий образ, выраженный через"
-                      " театральную эффектность экзотических костюмов, обильное использование макияжа и блесток, "
-                      "андрогинный облик, игры с нетрадиционными гендерными ролями. Исполнители вдохновлялись самыми "
-                      "разными вещами в музыке и поп-культуре, начиная от бабблгам-попа и рок-н-ролла 1950-х годов до"
-                      " кабаре, научной фантастики, психоделического рока и сложного арт-рока. В музыкальном отношении"
-                      " глэм-рок был неоднороден, совмещая рок-н-ролл, хард-рок, арт-рок и эстраду. Глиттер-рок является"
-                      " более экстремальной версией глэм-рока, появившейся благодаря Гари Глиттеру.",
-         "Gothic rock":" музыкальный жанр, возникший как ответвление пост-панка на рубеже 1970-х и 1980-х годов"
-                       ". В начале 1980-х жанр стал отдельным направлением. В музыке преобладают мрачные темы и "
-                       "интеллектуальные направления, такие как романтизм, нигилизм, а также готичное направление в "
-                       "искусстве Нового времени. Лучшими примерами групп, исполнявших готик-рок, могут служить: "
-                       "Siouxsie and the Banshees, Bauhaus, The Cure, Joy Division, The Sisters of Mercy и The Mission. "
-                       "Готик-рок стал основой для готической субкультуры, которая впоследствии существенно"
-                       " расширилась.",
-}
 
 def mainstr(request):
-    data = {
-        "janrs":janrs.keys()
-    }
-    return render(request, 'pages/mainpage.html', context=data)
+    return render(request, 'pages/mainpage.html')
 
-def janrGetName(request, name):
-    if janrs.get(name):
-        data = {
-        "janr": name,
-        "description": janrs[name]
-    }
-        return render(request, 'pages/secondpage.html', context=data)
+
+# def janrGetName(request, name):
+#     if janrs.get(name):
+#         data = {
+#         "janr": name,
+#         "description": janrs[name]
+#     }
+#         return render(request, 'pages/secondpage.html', context=data)
+#     else:
+#         return HttpResponseRedirect('404')
+#
+#def getnotFound(request):
+#    return render(request, 'pages/404.html')
+
+
+def add_page(request):
+    if request.method == 'POST':
+        form = AddJanrF(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                print('something went wrong')
     else:
-        return HttpResponseRedirect('404')
+        form = AddJanrF()
+    return render(request, 'pages/AddStr.html', {'form': form})
 
-def getnotFound(request):
-    return render(request, 'pages/404.html')
+
+def add_song(request):
+    if request.method == 'POST':
+        form = AddSongF(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                print('something went wrong')
+    else:
+        form = AddSongF()
+    return render(request, 'page/team.html', {"form": form})
+
+
+def add_author(request):
+    if request.method == 'POST':
+        form = AddAuthorF(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                print('something went wrong')
+    else:
+        form = AddAuthorF()
+    return render(request, 'page/team.html', {"form": form})
+
+
+def get_teams(request):
+    janr = Janr.objects.all()
+    return render(request, 'mainpage/getTeams.html', {"janr": janr})

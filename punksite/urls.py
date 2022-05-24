@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+import musicsite.views
+
 urlpatterns = [
     path('', include('musicsite.urls')),
     path('admin/', admin.site.urls),
+    path('add_page', musicsite.views.add_page, name='add_page')
 ]

@@ -49,7 +49,7 @@ def add_song(request):
                 print('something went wrong')
     else:
         form = AddSongF()
-    return render(request, 'page/team.html', {"form": form})
+    return render(request, 'page/Song.html', {"form": form})
 
 
 def add_author(request):
@@ -62,7 +62,7 @@ def add_author(request):
                 print('something went wrong')
     else:
         form = AddAuthorF()
-    return render(request, 'page/team.html', {"form": form})
+    return render(request, 'page/Song.html', {"form": form})
 
 
 def get_teams(request):

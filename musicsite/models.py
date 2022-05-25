@@ -8,7 +8,7 @@ class Janr(models.Model):
     description = models.CharField(max_length=999)
 
     def __str__(self):
-        return self.janr + ' ' + self.description
+        return self.janr
 
 class Author(models.Model):
     songAuthor = models.CharField(max_length=999)

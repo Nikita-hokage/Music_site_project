@@ -4,26 +4,27 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.shortcuts import render
-from musicsite.forms import AddJanrF, AddSongF, AddAuthorF
-from musicsite.models import Janr, Author, Song
+from .forms import AddJanrF, AddSongF, AddAuthorF
+from .models import Janr, Author, Song
 
 
 def mainstr(request):
-    return render(request, 'pages/mainpage.html')
+    janr = Janr.objects.all()
+    return render(request, 'pages/mainpage.html', {"janrs":janr})
 
 
 # def janrGetName(request, name):
-#     if janrs.get(name):
+#     if Janr.objects.get(name):
 #         data = {
 #         "janr": name,
-#         "description": janrs[name]
+#         "description": Janr[name]
 #     }
-#         return render(request, 'pages/author.html', context=data)
+#         return render(request, 'pages/second.html', context=data)
 #     else:
 #         return HttpResponseRedirect('404')
-#
-#def getnotFound(request):
-#    return render(request, 'pages/404.html')
+
+def getnotFound(request):
+    return render(request, 'pages/404.html')
 
 
 def add_page(request):
@@ -33,7 +34,7 @@ def add_page(request):
             try:
                 form.save()
             except:
-                print('something went wrong')
+                return HttpResponseRedirect('404')
     else:
         form = AddJanrF()
     return render(request, 'pages/AddStr.html', {'form': form})
@@ -46,10 +47,10 @@ def add_song(request):
             try:
                 form.save()
             except:
-                print('something went wrong')
+                return HttpResponseRedirect('404')
     else:
         form = AddSongF()
-    return render(request, 'page/Song.html', {"form": form})
+    return render(request, 'pages/Song.html', {"form": form})
 
 
 def add_author(request):
@@ -59,12 +60,8 @@ def add_author(request):
             try:
                 form.save()
             except:
-                print('something went wrong')
+                return HttpResponseRedirect('404')
     else:
         form = AddAuthorF()
-    return render(request, 'page/author.html', {"form": form})
+    return render(request, 'pages/author.html', {"form": form})
 
-
-def get_janr(request):
-    janr = Janr.objects.all()
-    return render(request, 'mainpage/getTeams.html', {"janr": janr})

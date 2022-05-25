@@ -17,13 +17,13 @@
     с roll, twist, swing, shake. Чаще всего (но не обязательно) рок исполняется с использованием электрогитар и ударных.
     Для рок-музыкантов характерно исполнение композиций собственного сочинения. Однако сами по себе эти элементы ещё не
     делают музыку роком, а потому принадлежность некоторых стилей музыки к року оспаривается.</h3>
-<a href="http://127.0.0.1:32146/add_page">add janr</a>
-<a href="http://127.0.0.1:32146/add_author">add author</a>
+<div><a href="http://127.0.0.1:32146/add_page">add janr</a></div>
+<div><a href="http://127.0.0.1:32146/add_author">add author</a></div>
 <a href="http://127.0.0.1:32146/add_song">add song</a>
 <p style="text-align: center;">Ответвления рок музыки</p>
 <div>
-    {% for janr in janrs %}
-        <a href="{{janr}}">{{janr}}</a>
+    {% for i in janrs %}
+        <a href="{{i.janr}}">{{i.janr}}</a>
     {% endfor %}
 </div>
 

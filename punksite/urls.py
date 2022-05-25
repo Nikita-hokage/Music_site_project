@@ -21,5 +21,5 @@ import musicsite.views
 urlpatterns = [
     path('', include('musicsite.urls')),
     path('admin/', admin.site.urls),
-    path('add_page', musicsite.views.add_page, name='add_page')
+
 ]

@@ -18,7 +18,7 @@ def mainstr(request):
 #         "janr": name,
 #         "description": janrs[name]
 #     }
-#         return render(request, 'pages/secondpage.html', context=data)
+#         return render(request, 'pages/author.html', context=data)
 #     else:
 #         return HttpResponseRedirect('404')
 #
@@ -62,9 +62,9 @@ def add_author(request):
                 print('something went wrong')
     else:
         form = AddAuthorF()
-    return render(request, 'page/Song.html', {"form": form})
+    return render(request, 'page/author.html', {"form": form})
 
 
-def get_teams(request):
+def get_janr(request):
     janr = Janr.objects.all()
     return render(request, 'mainpage/getTeams.html', {"janr": janr})
